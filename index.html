@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeReview | Auditeur d'Accessibilité Intelligent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-logo">
+            <i class="fa-solid fa-universal-access"></i>
+            <h1>CodeReview</h1>
+            <span class="badge">RGAA/WCAG</span>
+        </div>
+        <div class="header-actions">
+            <button id="settingsBtn" class="icon-btn" aria-label="Paramètres">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="app-container">
+        <!-- Panel Gauche : Entrée Code -->
+        <section class="panel input-panel">
+            <div class="panel-header">
+                <h2><i class="fa-solid fa-code"></i> Code à analyser</h2>
+                <div class="lang-tabs">
+                    <span class="tab active">HTML / CSS</span>
+                </div>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeInput" placeholder="Collez votre code HTML ou CSS ici...&#10;&#10;Exemple :&#10;<img src=&quot;logo.png&quot;>&#10;<button style=&quot;background: red; color: darkred;&quot;>Cliquez</button>"></textarea>
+            </div>
+            <div class="panel-footer">
+                <button id="auditBtn" class="primary-btn">
+                    <i class="fa-solid fa-magnifying-glass"></i> Lancer l'Audit
+                </button>
+            </div>
+        </section>
+
+        <!-- Panel Droit : Rapport IA -->
+        <section class="panel output-panel">
+            <div class="panel-header">
+                <h2><i class="fa-solid fa-clipboard-check"></i> Rapport d'Accessibilité</h2>
+                <div class="stats" id="reportStats" style="display: none;">
+                    <span class="stat-badge danger" id="statCritique">0</span>
+                    <span class="stat-badge warning" id="statMajeur">0</span>
+                    <span class="stat-badge info" id="statMineur">0</span>
+                </div>
+            </div>
+            <div class="report-container" id="reportContainer">
+                <div class="empty-state" id="emptyState">
+                    <i class="fa-solid fa-robot"></i>
+                    <p>L'IA Mistral attend votre code pour l'analyser selon les critères RGAA/WCAG.</p>
+                </div>
+                
+                <div class="loading-state" id="loadingState" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Analyse experte en cours...</p>
+                    <span class="loading-subtext">Vérification du contraste, des attributs ARIA, et de la sémantique...</span>
+                </div>
+
+                <div class="results-state" id="resultsState" style="display: none;">
+                    <!-- Les résultats seront injectés ici par JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Paramètres -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Configuration de l'IA</h2>
+                <button class="close-btn" id="closeSettings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Modèle IA / Fournisseur</label>
+                    <select id="providerSelect">
+                        <option value="mistral-api">Mistral API Officielle (Recommandé si vous avez la clé)</option>
+                        <option value="ollama">Ollama (Localhost)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="apiKeyGroup">
+                    <label for="apiKey">Clé API Mistral</label>
+                    <input type="password" id="apiKey" placeholder="Entrez votre clé API Mistral...">
+                    <small>Votre clé est stockée uniquement dans votre navigateur (localStorage).</small>
+                </div>
+
+                <div class="form-group" id="ollamaEndpointGroup" style="display: none;">
+                    <label for="ollamaEndpoint">URL Ollama</label>
+                    <input type="text" id="ollamaEndpoint" value="http://localhost:11434/api/generate">
+                    <small>Assurez-vous qu'Ollama est lancé sur votre machine avec le modèle 'mistral'.</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="saveSettingsBtn" class="primary-btn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

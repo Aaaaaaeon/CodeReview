@@ -1,0 +1,11 @@
+# Fichiers de configuration locaux
+config.js
+
+# Dépendances et builds (si jamais vous passez sur Node/Vite plus tard)
+node_modules/
+dist/
+.env
+
+# Fichiers système
+.DS_Store
+Thumbs.db
